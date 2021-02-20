@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import '@/client/App.scss';
 import axios from 'axios';
 
 export function App(props: {}) {
+    const [address, setAddress] = useState('');
     const submitAddress = async () => {
-        const res = await axios.get('/address');
-        if(res.status === 200) {
-            let foo = res.data;
+        try {
+            const res = await axios.get(`/geospatial?address=${address}`);
+            if(res.status === 200) {
+                let foo = res.data;
+            }
+            else {
+                console.log(res);
+            }
         }
-        else {
-            console.log(res);
+        catch (e) {
+            console.log(e);
+            const err = e;
         }
     }
     return (
@@ -20,7 +27,7 @@ export function App(props: {}) {
                 <section>
                     <ul>
                         <li><label htmlFor="address">Address: </label></li>
-                        <li><input type="text" name="address" id="address" /></li>
+                        <li><input type="text" name="address" id="address" value={address} onChange={(e) => setAddress(e.target.value)} /></li>
                         <li><button onClick={submitAddress}>Submit</button></li>
                     </ul>
                 </section>

@@ -1,7 +1,10 @@
-import express from 'express';
+import express, { Request } from 'express';
 
 export const router = express.Router();
 
-router.get('/address', (req, res) => {
-   res.send("address");
+import { getGeoSpatialData } from '@/server/controllers';
+import { RequestQuery } from '../_types';
+
+router.get('/geospatial', (req: Request<{}, {}, {}, RequestQuery>, res) => {
+   getGeoSpatialData(req, res);
 });
