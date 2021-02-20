@@ -5,13 +5,8 @@ const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 const configs = {
-    entry: [
-        path.resolve(path.join(__dirname, 'src', 'client')),
-        path.resolve(path.join(__dirname, 'src', 'client', 'index.tsx'))
-    ],
+    entry: path.resolve(path.join(__dirname, 'src', 'client', 'index.tsx')),
     resolve: {
-        // in case of using tsconfig.json, the alias in webpack can be skipped
-        // this is kept in case we decide to use the js files too for alias
         alias: {
             '@': path.resolve(__dirname, 'src'),
         },
@@ -51,6 +46,9 @@ const configs = {
     devServer: {
         historyApiFallback: true,
         hot: true,
+        proxy: {
+            ['/' + process.env.NODE_ENV]: 'http://localhost:' + process.env.PORT
+        }
     },
     output: {
         path: path.resolve(path.join(__dirname, 'build')),
@@ -61,6 +59,15 @@ const configs = {
 if(process.env.NODE_ENV == 'development' && process.argv[3] != 'production') {
     configs.mode = 'development';
     configs.devtool = 'inline-source-map';
+
+    const globalEnvInBuildReplacer = {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+    };
+
+    configs.plugins.push(new webpack.DefinePlugin(globalEnvInBuildReplacer));
+}
+else {
+    configs.plugins.push(new webpack.DefinePlugin({NODE_ENV: JSON.stringify('production')}));
 }
 
 module.exports = configs;

@@ -9,6 +9,6 @@ describe('Render', () => {
             <App />
         );
 
-        expect(screen.getByRole('heading', { name: /Google/i })).toBeInTheDocument();
+        expect(screen.getByLabelText(/Address/i)).toBeInTheDocument();
     });
 });

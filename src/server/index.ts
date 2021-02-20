@@ -4,7 +4,15 @@ dotenv.config();
 import path from 'path';
 import express from 'express';
 
+import { router } from '@/server/routes';
+
 const app = express();
+
+let proxyUrlString = "/";
+if(process.env.NODE_ENV === "development")
+    proxyUrlString = "/development";
+
+app.use(proxyUrlString, router);
 
 app.get('/', async (req, res) => {
     res.sendFile(path.resolve(path.join('build', 'index.html')));
