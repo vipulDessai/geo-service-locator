@@ -1,0 +1,12 @@
+# packages
+node_modules
+
+# lock
+package-lock.json
+
+# ENV
+.env
+
+# build
+build
+/index.js
