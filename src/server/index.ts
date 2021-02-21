@@ -1,10 +1,16 @@
 import dotenv from 'dotenv';
-dotenv.config();
+const env = dotenv.config();
 
 import path from 'path';
 import express from 'express';
 
 import { router } from '@/server/routes';
+import { dbService  } from '@/server/_utils';
+
+const db = dbService.dbInit();
+db.on('error', (error) => {
+    console.log(error);
+});
 
 const app = express();
 
