@@ -1,11 +1,11 @@
 import dotenv from 'dotenv';
-const env = dotenv.config();
+dotenv.config();
 
 import path from 'path';
 import express from 'express';
 
 import { router } from '@/server/routes';
-import { dbService  } from '@/server/_utils';
+import { dbService } from '@/server/_utils';
 
 const db = dbService.dbInit();
 db.on('error', (error) => {
@@ -20,7 +20,7 @@ if(process.env.NODE_ENV === "development")
 
 app.use(proxyUrlString, router);
 
-app.get('/', async (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.resolve(path.join('build', 'index.html')));
 });
 

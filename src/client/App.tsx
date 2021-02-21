@@ -20,6 +20,21 @@ export function App(props: {}) {
             const err = e;
         }
     }
+    const getNeighbourRestarants = async () => {
+        try {
+            const res = await axios.get(`/currentNeighborhoodRestarants`);
+            if(res.status === 200) {
+                let foo = res.data;
+            }
+            else {
+                console.log(res);
+            }
+        }
+        catch (e) {
+            console.log(e);
+            const err = e;
+        }
+    }
     return (
         <>
             <header></header>
@@ -29,6 +44,7 @@ export function App(props: {}) {
                         <li><label htmlFor="address">Address: </label></li>
                         <li><input type="text" name="address" id="address" value={address} onChange={(e) => setAddress(e.target.value)} /></li>
                         <li><button onClick={submitAddress}>Submit</button></li>
+                        <li><button onClick={getNeighbourRestarants}>Neighbour</button></li>
                     </ul>
                 </section>
             </main>
